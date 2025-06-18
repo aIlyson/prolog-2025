@@ -1,6 +1,17 @@
+# VS Code
+.vscode/
+
+# IntelliJ IDEA
+.idea/
+*.iml
+
 # ignore build artifacts
 *.qlf
 *.bak
 *.tmp
 *.swp
 .DS_Store
+
+# ignore build
+build/
+bin/
