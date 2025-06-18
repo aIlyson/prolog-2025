@@ -1,9 +1,13 @@
 :- initialization(main).
 
+% banco de dados
+% ---
+
+% funcao principal do programa
 main :-
     write('hi!'), nl,
     halt.
 
-% Para rodar: 
-% 1. Abra o terminal no VS Code
-% 2. Execute: swipl -s src/main.pl -g main -t halt
+% para rodar: 
+% 1. abra o terminal no VS Code
+% 2. execute: swipl -s src/main.pl -g main -t halt
