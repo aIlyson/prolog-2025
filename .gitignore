@@ -1,0 +1,6 @@
+# ignore build artifacts
+*.qlf
+*.bak
+*.tmp
+*.swp
+.DS_Store
