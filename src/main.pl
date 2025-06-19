@@ -1,7 +1,7 @@
 :- initialization(main).
 
-% banco de dados
-% ---
+% importar banco de dados
+:- consult('database.pl').
 
 % funcao principal do programa
 main :-
