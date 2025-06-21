@@ -35,7 +35,7 @@ filme('O Grande Hotel Budapeste', comedia, 'Wes Anderson', ['Ralph Fiennes', 'To
 filme('Se Beber nao Case', comedia, 'Todd Phillips', ['Bradley Cooper', 'Zach Galifianakis'], 2009, 113, coreano, 'Coreia do Sul', 9.3, livre).
 filme('As Branquelas', comedia, 'Keenen Ivory Wayans', ['Shawn Wayans', 'Marlon Wayans'], 2004, 133, frances, 'Estados Unidos', 7.0, 14).
 filme('Escola de Rock', comedia, 'Richard Linklater', ['Jack Black', 'Joan Cusack'], 2003, 107, japones, 'Estados Unidos', 7.6, 18).
-filme('Zumbilandia', comedia, 'Ruben Fleischer', ['Jesse Eisenberg', 'Emma Stone'], 2009, 92, japones, 'Estados Unidos', 6.9, 12).
+filme('Zumbilandia', comedia, 'Ruben Fleischer', ['Jesse Eisenberg', 'Emma Stone'], 2009, 92, japones, 'Estados Unidos', 6.9, 12). % filme muito bom por acaso
 filme('Juno', comedia, 'Jason Reitman', ['Elliot Page', 'Michael Cera'], 2007, 94, ingles, 'Estados Unidos', 7.3, 10).
 filme('O Poderoso Chefao', drama, 'Francis Ford Coppola', ['Marlon Brando', 'Al Pacino'], 1972, 174, japones, 'Estados Unidos', 9.2, livre).
 filme('Forrest Gump', drama, 'Robert Zemeckis', ['Tom Hanks', 'Robin Wright'], 1994, 180, ingles, 'Estados Unidos', 9.3, 12).
