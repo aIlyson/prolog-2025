@@ -7,10 +7,44 @@
 
 % nosso caso, o filme/10 sera definido em 'database.pl':
 
+
 main :-
-    write('Menu'), nl,
-    write('Digite "consultar." para ver as opcoes de busca.'), nl, % caso o usuário queira consultar filmes
-    write('Digite "recomendar (Filme, Usuario, Preferencias)." para obter recomendacoes.'), nl. % caso o usuário queira uma recomendacao
+    repeat,
+    nl,
+    write('===== MENU PRINCIPAL ====='), nl,
+    write('1. Consultar opcoes de busca'), nl,
+    write('2. Registrar filmes assistidos'), nl,
+    write('3. Obter recomendacoes'), nl,
+    write('0. Sair'), nl,
+    write('Escolha uma opcao: '),
+    read(Opcao),
+    nl,
+    executar_opcao(Opcao),
+    Opcao == 0, !.
+
+executar_opcao(1) :- consultar, !.
+executar_opcao(2) :-
+    write('Digite o nome do usuario: '),
+    read(Usuario),
+    registrar_assistidos(Usuario), !.
+executar_opcao(3) :-
+    write('Digite o nome do usuario: '), read(Usuario),
+    write('Digite o filme base: '), read(FilmeBase),
+    write('Digite o genero: '), read(Genero),
+    write('Digite a nota minima: '), read(NotaMin),
+    recomendar(Usuario, FilmeBase, Genero, NotaMin, Lista),
+    write('Recomendacoes:'), nl,
+    mostrar_lista(Lista), !.
+executar_opcao(0) :-
+    write('Encerrando...'), nl, !.
+executar_opcao(_) :-
+    write('Opcao invalida!'), nl, fail.
+
+mostrar_lista([]).
+mostrar_lista([Score-Titulo | T]) :-
+    format('~w - ~w~n', [Score, Titulo]),
+    mostrar_lista(T).
+
 
 % realiza uma consulta basica
 consultar :-
@@ -46,10 +80,10 @@ filmes_acima_nota(_).
 
 % lista todos os filmes cadastrados
 listar_todos_filmes :-
-    filme(Titulo, Genero, Diretor, Elenco, Ano, Duracao, Idioma, Pais, IMDb, Classificacao),
-    write('Titulo: '), write(Titulo), nl,
+    filme(Filme, Genero, _, _, _, _, _, _, Nota, Classificacao),
+    write('Titulo: '), write(Filme), nl,
     write('Genero: '), write(Genero), nl,
-    write('Nota IMDb: '), write(IMDb), nl,
+    write('Nota IMDb: '), write(Nota), nl,
     write('Classificacao: '), write(Classificacao), nl, nl,
     fail.
 listar_todos_filmes.
@@ -101,9 +135,26 @@ explica_recomendacao(F1, F2, Texto) :-
       'O filme ~w foi recomendado por ter ~w em comum com ~w.',
       [F2, MotivosTexto, F1]).
 
-assistido(usuario1, 'matrix').
-assistido(usuario1, 'avatar').
+     :- use_module(library(readutil)). % para read_line_to_string/2
 
+registrar_assistidos(Usuario) :-
+    write('Digite os filmes que voce ja assistiu (digite "fim" para terminar):'), nl,
+    repetir_leitura_filmes(Usuario).
+
+repetir_leitura_filmes(Usuario) :-
+    read_line_to_string(user_input, Linha),
+    ( Linha = "fim" ->
+        true
+    ;
+        atom_string(FilmeAtom, Linha),
+        ( assistido(Usuario, FilmeAtom) ->
+            write('Filme ja registrado: '), write(FilmeAtom), nl
+        ;
+            assertz(assistido(Usuario, FilmeAtom)),
+            write('Registrado: '), write(FilmeAtom), nl
+        ),
+        repetir_leitura_filmes(Usuario)
+    ).
 
 % ---------- dip ----------
 
