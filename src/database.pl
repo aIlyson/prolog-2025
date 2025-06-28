@@ -1,4 +1,5 @@
 % base de dados de filmes
+% filme(Titulo, Genero, Diretor, Elenco, Ano, Duracao, Idioma, Pais, IMDb, Classificacao).
 
 filme('Matrix', ficcao, 'Wachowski', ['Keanu Reeves', 'Laurence Fishburne'], 1999, 141, frances, 'Estados Unidos', 9.4, 18).
 filme('Interestelar', ficcao, 'Christopher Nolan', ['Matthew McConaughey', 'Anne Hathaway'], 2014, 171, japones, 'Estados Unidos', 9.2, 14).
