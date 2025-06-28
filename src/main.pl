@@ -54,6 +54,56 @@ listar_todos_filmes :-
     fail.
 listar_todos_filmes.
 
+intersecao([], _, []).
+intersecao([H|T], L2, [H|R]) :- member(H, L2), !, intersecao(T, L2, R).
+intersecao([_|T], L2, R) :- intersecao(T, L2, R).
+
+score(F1, F2, Score) :-
+    filme(F1, G1, D1, E1, _, _, _, P1, N1, _),
+    filme(F2, G2, D2, E2, _, _, _, P2, N2, _),
+    F1 \= F2,
+    (G1 == G2 -> S1 = 2 ; S1 = 0),
+    (D1 == D2 -> S2 = 1 ; S2 = 0),
+    intersecao(E1, E2, I), length(I, S3),
+    (N2 > N1 -> S4 = 1 ; S4 = 0),
+    (P1 == P2 -> S5 = 1 ; S5 = 0),
+    Score is S1 + S2 + S3 + S4 + S5.
+
+recomendar(Usuario, FilmeRef, Genero, NotaMin, ListaOrd) :-
+    findall(
+        Score-Filme,
+        (
+            filme(Filme, Genero, _, _, _, _, _, _, Nota, _),
+            Nota >= NotaMin,
+            Filme \= FilmeRef,
+            \+ assistido(Usuario, Filme),
+            score(FilmeRef, Filme, Score),
+            Score > 0
+        ),
+        Pares
+    ),
+    keysort(Pares, Ordenado),
+    reverse(Ordenado, ListaOrd).
+
+explica_recomendacao(F1, F2, Texto) :-
+    filme(F1, G1, D1, E1, _, _, _, P1, N1, _),
+    filme(F2, G2, D2, E2, _, _, _, P2, N2, _),
+    F1 \= F2,
+    findall(Motivo, (
+        (G1 == G2 -> Motivo = 'mesmo gênero' ; fail);
+        (D1 == D2 -> Motivo = 'mesmo diretor' ; fail);
+        (intersecao(E1, E2, I), I \= [], Motivo = 'atores em comum');
+        (N2 > N1 -> Motivo = 'nota superior' ; fail);
+        (P1 == P2 -> Motivo = 'mesmo país de origem' ; fail)
+    ), Motivos),
+    atomic_list_concat(Motivos, ', ', MotivosTexto),
+    format(atom(Texto),
+      'O filme ~w foi recomendado por ter ~w em comum com ~w.',
+      [F2, MotivosTexto, F1]).
+
+assistido(usuario1, 'matrix').
+assistido(usuario1, 'avatar').
+
 
 % ---------- dip ----------
 
