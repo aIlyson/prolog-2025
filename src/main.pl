@@ -65,7 +65,7 @@ score(F1, F2, Score) :-
     (G1 == G2 -> S1 = 2 ; S1 = 0),
     (D1 == D2 -> S2 = 1 ; S2 = 0),
     intersecao(E1, E2, I), length(I, S3),
-    (N2 > N1 -> S4 = 1 ; S4 = 0),
+    (N2 > N1 -> S4 = 1 ; N2 < N1 -> S4 = -1 ; S4 = 0),
     (P1 == P2 -> S5 = 1 ; S5 = 0),
     Score is S1 + S2 + S3 + S4 + S5.
 
