@@ -1,4 +1,4 @@
-:- initialization(main).
+% :- initialization(main).
 
 % banco de dados
 :- consult('database.pl').
@@ -9,12 +9,15 @@
 
 
 main :-
+
+write('===== SISTEMA DE RECOMENDACAO DE FILMES ====='), nl,
     repeat,
     nl,
     write('===== MENU PRINCIPAL ====='), nl,
     write('1. Consultar opcoes de busca'), nl,
     write('2. Registrar filmes assistidos'), nl,
     write('3. Obter recomendacoes'), nl,
+    write('4. Explicar recomendacao'), nl,
     write('0. Sair'), nl,
     write('Escolha uma opcao: '),
     read(Opcao),
@@ -35,6 +38,14 @@ executar_opcao(3) :-
     recomendar(Usuario, FilmeBase, Genero, NotaMin, Lista),
     write('Recomendacoes:'), nl,
     mostrar_lista(Lista), !.
+executar_opcao(4) :-
+    write('Digite o filme base: '), read(F1),
+    write('Digite o filme recomendado: '), read(F2),
+    ( explica_recomendacao(F1, F2, Texto) ->
+        write(Texto), nl
+    ;
+        write('Nao foi possivel gerar explicacao para essa recomendacao.'), nl
+    ), !.
 executar_opcao(0) :-
     write('Encerrando...'), nl, !.
 executar_opcao(_) :-
