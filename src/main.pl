@@ -3,10 +3,7 @@
 % banco de dados
 :- consult('database.pl').
 :- dynamic assistido/2. % permite armazenar filmes assistidos por usuarios
-:- dynamic preferencias/5. % permite armazenar preferencias de usuarios
-
-% nosso caso, o filme/10 sera definido em 'database.pl':
-
+% :- dynamic preferencias/5.
 
 main :-
 
@@ -25,6 +22,7 @@ write('===== SISTEMA DE RECOMENDACAO DE FILMES ====='), nl,
     executar_opcao(Opcao),
     Opcao == 0, !.
 
+% atua como uma especie de "switch case" para as opcoes do menu
 executar_opcao(1) :- consultar, !.
 executar_opcao(2) :-
     write('Digite o nome do usuario: '),
@@ -103,6 +101,7 @@ intersecao([], _, []).
 intersecao([H|T], L2, [H|R]) :- member(H, L2), !, intersecao(T, L2, R).
 intersecao([_|T], L2, R) :- intersecao(T, L2, R).
 
+% nosso sistema, o score é calculado com base em critérios combinados
 score(F1, F2, Score) :-
     filme(F1, G1, D1, E1, _, _, _, P1, N1, _),
     filme(F2, G2, D2, E2, _, _, _, P2, N2, _),
@@ -135,11 +134,11 @@ explica_recomendacao(F1, F2, Texto) :-
     filme(F2, G2, D2, E2, _, _, _, P2, N2, _),
     F1 \= F2,
     findall(Motivo, (
-        (G1 == G2 -> Motivo = 'mesmo gênero' ; fail);
+        (G1 == G2 -> Motivo = 'mesmo genero' ; fail);
         (D1 == D2 -> Motivo = 'mesmo diretor' ; fail);
         (intersecao(E1, E2, I), I \= [], Motivo = 'atores em comum');
         (N2 > N1 -> Motivo = 'nota superior' ; fail);
-        (P1 == P2 -> Motivo = 'mesmo país de origem' ; fail)
+        (P1 == P2 -> Motivo = 'mesmo pais de origem' ; fail)
     ), Motivos),
     atomic_list_concat(Motivos, ', ', MotivosTexto),
     format(atom(Texto),
@@ -166,26 +165,9 @@ repetir_leitura_filmes(Usuario) :-
         ),
         repetir_leitura_filmes(Usuario)
     ).
-
-% ---------- dip ----------
-
-% calcular_score(FilmeBase, FilmeComp, AtorPref, Score, Explicacoes) :-
-
-
-% recomenda filmes
-% recomendar(FilmeBase, Usuario, preferencias(Genero, NotaMin, ClassMax, AtorPref)) :-
-
-% exibir_recomendacoes([]) :-
     
 
-% exmplo de estrutura a ser usada mais para frente:
-% 1. Buscar todos os filmes diferentes do FilmeBase
-% 2. Filtrar por genero, nota mínima e classificacao maxima
-% 3. Calcular score com base em criterios combinados
-% 4. Excluir filmes jáaassistidos usando: \+ assistido(Usuario, Filme)
-% 5. Retornar os filmes ordenados por score (sort/4)
-
-% pontuacao sugerida (exemplo para sua dupla):
+% pontuacao sugerida:
 % +2 se genero for igual
 % +1 se ator preferido estiver no elenco
 % +1 se pais for igual
