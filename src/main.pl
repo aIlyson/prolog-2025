@@ -3,14 +3,13 @@
 % banco de dados
 :- consult('database.pl').
 :- dynamic assistido/2. % permite armazenar filmes assistidos por usuarios
-% :- dynamic preferencias/5.
 
 main :-
 
 write('===== SISTEMA DE RECOMENDACAO DE FILMES ====='), nl,
     repeat,
     nl,
-    write('===== MENU PRINCIPAL ====='), nl,
+    write('      MENU PRINCIPAL      '), nl,
     write('1. Consultar opcoes de busca'), nl,
     write('2. Registrar filmes assistidos'), nl,
     write('3. Obter recomendacoes'), nl,
