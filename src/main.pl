@@ -5,8 +5,7 @@
 :- dynamic assistido/2. % permite armazenar filmes assistidos por usuarios
 
 main :-
-
-write('===== SISTEMA DE RECOMENDACAO DE FILMES ====='), nl,
+    write('===== SISTEMA DE RECOMENDACAO DE FILMES ====='), nl,
     repeat,
     nl,
     write('      MENU PRINCIPAL      '), nl,
@@ -29,15 +28,32 @@ executar_opcao(2) :-
     registrar_assistidos(Usuario), !.
 executar_opcao(3) :-
     write('Digite o nome do usuario: '), read(Usuario),
-    write('Digite o filme base: '), read(FilmeBase),
+    write('Digite o filme base: '), read(FilmeBase),3.
+    (FilmeBase == '_' -> 
+        write('Erro: Filme base nao pode ser vazio.'), nl, fail ; true),
+    
     write('Digite o genero: '), read(Genero),
+    (Genero == '_' -> 
+        write('Erro: Genero nao pode ser vazio.'), nl, fail ; true),
+    
     write('Digite a nota minima: '), read(NotaMin),
+    (NotaMin == '_' -> 
+        write('Erro: Nota minima nao pode ser vazia.'), nl, fail ;
+    (number(NotaMin) -> true ; 
+        write('Erro: Nota deve ser um numero.'), nl, fail)),
+    
     recomendar(Usuario, FilmeBase, Genero, NotaMin, Lista),
     write('Recomendacoes:'), nl,
     mostrar_lista(Lista), !.
 executar_opcao(4) :-
     write('Digite o filme base: '), read(F1),
+    (F1 == '_' -> 
+        write('Erro: Filme base nao pode ser vazio.'), nl, fail ; true),
+    
     write('Digite o filme recomendado: '), read(F2),
+    (F2 == '_' -> 
+        write('Erro: Filme recomendado nao pode ser vazio.'), nl, fail ; true),
+    
     ( explica_recomendacao(F1, F2, Texto) ->
         write(Texto), nl
     ;
@@ -52,7 +68,6 @@ mostrar_lista([]).
 mostrar_lista([Score-Titulo | T]) :-
     format('~w - ~w~n', [Score, Titulo]),
     mostrar_lista(T).
-
 
 % realiza uma consulta basica
 consultar :-
@@ -144,7 +159,7 @@ explica_recomendacao(F1, F2, Texto) :-
       'O filme ~w foi recomendado por ter ~w em comum com ~w.',
       [F2, MotivosTexto, F1]).
 
-     :- use_module(library(readutil)). % para read_line_to_string/2
+:- use_module(library(readutil)). % para read_line_to_string/2
 
 registrar_assistidos(Usuario) :-
     write('Digite os filmes que voce ja assistiu (digite "fim" para terminar):'), nl,
@@ -164,11 +179,3 @@ repetir_leitura_filmes(Usuario) :-
         ),
         repetir_leitura_filmes(Usuario)
     ).
-    
-
-% pontuacao sugerida:
-% +2 se genero for igual
-% +1 se ator preferido estiver no elenco
-% +1 se pais for igual
-% +1 se nota IMDb for maior que a do filme base
-% -1 se for da mesma classificacao mas menor nota

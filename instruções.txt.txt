@@ -1,0 +1,89 @@
+Alysson Michel e Kleber Moura
+
+Requisitos:
+-----------
+- SWI-Prolog instalado (pode ser via extensão no VSCode ou o software oficial)
+- Abrir o terminal ou PowerShell na pasta src/
+- Iniciar o programa com:
+
+    swipl main.pl
+
+==================================================
+COMANDOS DISPONÍVEIS
+==================================================
+
+1. CONSULTAR OPÇÕES DE FILMES
+-----------------------------
+Para visualizar exemplos de consultas disponíveis no sistema:
+
+    ?- consultar.
+
+Exemplos:
+---------
+    ?- filmes_por_genero(ficcao).
+    ?- filmes_por_ator('Anne Hathaway').
+    ?- filmes_acima_nota(9.0).
+    ?- listar_todos_filmes.
+
+--------------------------------------------------
+
+2. REGISTRAR FILMES ASSISTIDOS
+------------------------------
+Para registrar os filmes que um usuário já assistiu:
+
+    ?- registrar_assistidos(aluno).
+
+O sistema pedirá os nomes dos filmes um por linha. Para finalizar, digite:
+
+    fim
+
+Exemplo:
+    |: Interestelar
+    |: fim
+
+--------------------------------------------------
+
+3. OBTER RECOMENDAÇÕES
+-----------------------
+Gera uma lista de recomendações com base em um filme de referência:
+
+    ?- recomendar(aluno, 'Matrix', ficcao, 6.0, L).
+
+Onde:
+- "aluno" é o nome do usuário
+- "Matrix" é o filme de referência
+- "ficcao" é o gênero desejado
+- 6.0 é a nota mínima no IMDb
+- L será a lista retornada com os filmes e scores
+
+--------------------------------------------------
+
+4. EXPLICAR UMA RECOMENDAÇÃO
+----------------------------
+Para gerar uma explicação textual de por que um filme foi recomendado:
+
+    ?- explica_recomendacao('Matrix', 'Interestelar', Texto).
+
+A variável Texto conterá os critérios que contribuíram para a recomendação.
+
+--------------------------------------------------
+
+5. LISTAR FILMES ASSISTIDOS
+---------------------------
+Para verificar os filmes que um usuário registrou como assistidos:
+
+    ?- listing(assistido).
+
+--------------------------------------------------
+
+OBSERVAÇÕES FINAIS
+
+- O sistema ignora automaticamente filmes já assistidos pelo usuário.
+- As recomendações são ordenadas de forma decrescente pelo score.
+- O cálculo de similaridade leva em consideração:
+    +2 se o gênero for igual
+    +1 se o diretor for igual
+    +1 para cada ator em comum
+    +1 se a nota IMDb for maior
+    +1 se o país for o mesmo
+    -1 se a nota IMDb for menor
